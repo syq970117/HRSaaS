@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { login, getUserInfo } from '@/api/user'
 
 /*
   状态
@@ -10,7 +10,8 @@ import { login } from '@/api/user'
   vuex与前端缓存相结合
 */
 const state = {
-  token: getToken() // 设置token初始状态 token初始化 => 放入缓存中
+  token: getToken(), // 设置token初始状态 token初始化 => 放入缓存中
+  userInfo: {}
 }
 
 // 修改状态
@@ -26,6 +27,18 @@ const mutations = {
   removeToken(state) {
     state.token = null // 删除vuex的token
     removeToken() // 先清除vuex，再清除vuex和缓存数据的同步
+  },
+
+  setUserInfo(state, result) {
+    // 更新一个对象
+    state.userInfo = result // 这样是响应式
+    // state.userInfo = { ...result } // 这样也是响应式 属于浅拷贝
+    // state.userInfo['username'] = result // 这不是响应式
+  },
+
+  // 删除用户信息
+  removeUserInfo(state) {
+    state.userInfo = {}
   }
 }
 
@@ -43,6 +56,12 @@ const actions = {
     //   context.commit('setToken', result.data.data)
     // }
     context.commit('setToken', result)
+  },
+  async getUserInfo(context) {
+    const result = await getUserInfo()
+    context.commit('setUserInfo', result)
+
+    return result // 这里为什么要返回，给后期做权限留下伏笔
   }
 }
 

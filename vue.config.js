@@ -120,13 +120,15 @@ module.exports = {
         }
       )
   },
-  // 配置代理跨域
-  proxy: {
-    // 当本地请求有/api的时候，就会代理我们的请求地址向另一个服务器发出请求
-    'api': {
-      target: 'http://ihrm-java.itheima.net/', // 跨域请求地址
-      changeOrigin: true // 开启跨域
+  // eslint-disable-next-line no-dupe-keys
+  devServer: {
+    // 配置代理跨域
+    proxy: {
+      // 当本地请求有/api的时候，就会代理我们的请求地址向另一个服务器发出请求
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/', // 跨域请求地址
+        changeOrigin: true // 开启跨域
+      }
     }
   }
-
 }
