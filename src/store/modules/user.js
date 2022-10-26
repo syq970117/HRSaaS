@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 /*
   状态
@@ -59,9 +59,17 @@ const actions = {
   },
   async getUserInfo(context) {
     const result = await getUserInfo()
-    context.commit('setUserInfo', result)
+
+    // 获取用户详情
+    const baseInfo = await getUserDetailById(result.userId)
+
+    context.commit('setUserInfo', { ...result, ...baseInfo })
 
     return result // 这里为什么要返回，给后期做权限留下伏笔
+  },
+  logout(context) {
+    context.commit('removeToken') // 连缓存一起清除
+    context.commit('removeUserInfo')
   }
 }
 

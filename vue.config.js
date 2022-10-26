@@ -35,8 +35,17 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    }
+    },
     // before: require('./mock/mock-server.js') // 注释mock-server加载
+    // 配置反向代理
+    proxy: {
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/', // 要代理的服务器地址，这里不用写api
+        changeOrigin: true // 是否跨域
+        // 重写路径
+        // pathRewrite: {}
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -119,16 +128,5 @@ module.exports = {
           config.optimization.runtimeChunk('single')
         }
       )
-  },
-  // eslint-disable-next-line no-dupe-keys
-  devServer: {
-    // 配置代理跨域
-    proxy: {
-      // 当本地请求有/api的时候，就会代理我们的请求地址向另一个服务器发出请求
-      '/api': {
-        target: 'http://ihrm-java.itheima.net/', // 跨域请求地址
-        changeOrigin: true // 开启跨域
-      }
-    }
   }
 }
