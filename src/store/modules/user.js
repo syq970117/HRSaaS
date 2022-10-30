@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 /*
@@ -20,7 +20,7 @@ const mutations = {
   setToken(state, token) {
     state.token = token // 设置token只是修改state的数据
     // vuex变化 => 缓存数据
-    setToken(state) // vuex和缓存数据同步
+    setToken(token) // vuex和缓存数据同步
   },
 
   // 删除缓存
@@ -48,14 +48,9 @@ const actions = {
   async login(context, data) {
     // 实际上就是一个promise
     // result就是执行的结果
-    const result = await login(data)
-    // axios默认给数据加了一层data
-    // if (result.data.success) {
-    //   // 表示调用登录接口成功
-    //   // actions修改state，必须通过mutations
-    //   context.commit('setToken', result.data.data)
-    // }
-    context.commit('setToken', result)
+    const result = await login(data) // 拿到token
+    context.commit('setToken', result) // 设置token
+    setTimeStamp() // 设置当前时间戳
   },
   async getUserInfo(context) {
     const result = await getUserInfo()
