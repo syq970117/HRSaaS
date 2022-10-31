@@ -14,7 +14,8 @@ export default {
       // 可以用来存放任何数据
       meta: {
         // 左侧导航栏会读取这里的属性
-        title: '组织架构'
+        title: '组织架构',
+        icon: 'tree'
       }
     }
   ]
