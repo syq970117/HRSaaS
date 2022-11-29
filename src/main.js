@@ -16,6 +16,8 @@ import * as directives from '@/directives'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import Component from '@/components'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -39,6 +41,8 @@ Object.keys(directives).forEach(key => {
 })
 
 Vue.config.productionTip = false
+// 注册自定义组件
+Vue.use(Component)
 
 new Vue({
   el: '#app',

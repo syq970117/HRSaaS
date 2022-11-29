@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <page-tools :show-before="true">
+      <span slot="before">世界杯开始！</span>
+      <el-button slot="after" type="primary">导入Excel</el-button>
+    </page-tools>
   </div>
 </template>
 
@@ -9,6 +13,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+
   computed: {
     ...mapGetters([
       'name'
